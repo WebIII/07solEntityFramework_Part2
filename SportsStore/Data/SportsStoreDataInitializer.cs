@@ -47,6 +47,7 @@ namespace SportsStore.Data
                 City[] cities = { gent, antwerpen };
                 _context.Cities.AddRange(cities);
 
+                _context.SaveChanges();
                 //customers with orders and orderlines
                 for (int i = 1; i < 10; i++)
                 {
@@ -54,8 +55,8 @@ namespace SportsStore.Data
                     if (i <= 5)
                     {
                         Cart cart = new Cart();
-                        cart.AddLine(football, 1);
-                        cart.AddLine(cornerflags, 2);
+                        cart.AddLine(_context.Products.FirstOrDefault(p => p.Name.ToUpper().Equals("FOOTBALL")), 1);
+                        cart.AddLine(_context.Products.FirstOrDefault(p => p.Name.ToUpper().Equals("CORNER FLAGS")), 2);
                         klant.PlaceOrder(cart, DateTime.Today, false, klant.Street, klant.City);
                     }
                     _context.Customers.Add(klant);
